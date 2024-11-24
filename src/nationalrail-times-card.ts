@@ -65,6 +65,7 @@ export class NationalrailTimesCard extends LitElement {
       show_departure_time: true,
       show_lastupdated: true,
       show_offset: true,
+      show_platform: true,
       ...config,
     };
   }
@@ -177,6 +178,14 @@ export class NationalrailTimesCard extends LitElement {
         return html`<div class="messages">${entity.message}</div>`
       }
     }
+  }
+
+  getPlatform(attribs): string | null {
+  if (!attribs?.service) {
+    return null;
+  }
+  const platform = attribs.service.platform;
+  return platform ? platform : null;
   }
 
   getStatus(attribs): string {
@@ -337,6 +346,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
+      ${this.getPlatform(entity.attributes)}
       ${this._renderServiceStatus(entity.attributes, THEME.DEFAULT)}
       ${this._renderServiceTimes(entity.attributes)}
       ${this._renderCallingPoints(entity.attributes)}
@@ -364,6 +374,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
+      ${this.getPlatform(entity.attributes)}
       <div class="row">
         ${this._renderServiceTimes(entity.attributes)}
         ${this._renderCallingPoints(entity.attributes)}
