@@ -96,6 +96,10 @@ export class NationalrailTimesCardEditor extends ScopedRegistryHost(LitElement) 
     return this._getConfig('show_offset', true);
   }
 
+  get _show_platform(): boolean {
+    return this._getConfig('show_platform', true);
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass || !this._helpers) {
       return html``;
@@ -198,6 +202,13 @@ export class NationalrailTimesCardEditor extends ScopedRegistryHost(LitElement) 
         <mwc-switch
           .checked=${this._show_offset !== false}
           .configValue=${'show_offset'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle platform number ${this._show_platform ? 'off' : 'on'}`}>
+        <mwc-switch
+          .checked=${this._show_platform !== false}
+          .configValue=${'show_platform'}
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
