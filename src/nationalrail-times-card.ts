@@ -20,7 +20,7 @@ import { localize } from './localize/localize';
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'nationalrail-times-card',
-  name: 'National Rail Times Card',
+  name: 'National Rail Times Card - Platform Number',
   description: 'A custom template to present departure details from a configured station enabled from the National Rail Departure Times Integration',
 });
 
@@ -86,6 +86,7 @@ export class NationalrailTimesCard extends LitElement {
 
   isCancelled(attribs):boolean|void {
     if (!attribs?.service) {
+      console.log(attribs.service);
       return true;
     }
     
@@ -346,7 +347,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes)}
+      ${this.getPlatform(entity.attributes) ? html`<div class="platform">Platform: ${this.getPlatform(entity.attributes)}</div>` : ''}
       ${this._renderServiceStatus(entity.attributes, THEME.DEFAULT)}
       ${this._renderServiceTimes(entity.attributes)}
       ${this._renderCallingPoints(entity.attributes)}
@@ -374,7 +375,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes)}
+      ${this.getPlatform(entity.attributes) ? html`<div class="platform">Platform: ${this.getPlatform(entity.attributes)}</div>` : ''}
       <div class="row">
         ${this._renderServiceTimes(entity.attributes)}
         ${this._renderCallingPoints(entity.attributes)}
