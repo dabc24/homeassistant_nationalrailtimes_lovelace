@@ -84,9 +84,7 @@ If you created the <config>/www directory, restart Home Assistant (Developer Too
 [license-shield]: https://img.shields.io/github/license/custom-cards/boilerplate-card.svg?style=for-the-badge
 [hacs-url]: https://github.com/hacs/integration
 [hacs-badge]: https://img.shields.io/badge/hacs-default-orange.svg?style=flat-square
-[release-badge]: https://img.shields.io/github/v/release/crismc/homeassistant_nationalrailtimes_lovelace?style=flat-square
-[downloads-badge]: https://img.shields.io/github/downloads/crismc/homeassistant_nationalrailtimes_lovelace/total?style=flat-square
-[build-badge]: https://img.shields.io/github/workflow/status/crismc/homeassistant_nationalrailtimes_lovelace/Build?style=flat-square
+
 
 <!-- References -->
 
@@ -94,4 +92,3 @@ If you created the <config>/www directory, restart Home Assistant (Developer Too
 [home-assitant-theme-docs]: https://www.home-assistant.io/integrations/frontend/#defining-themes
 [hacs]: https://hacs.xyz
 [ui-lovelace-minimalist]: https://ui-lovelace-minimalist.github.io/UI/
-[release-url]: https://github.com/crismc/homeassistant_nationalrailtimes_lovelace/releases
