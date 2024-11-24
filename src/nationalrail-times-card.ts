@@ -86,7 +86,6 @@ export class NationalrailTimesCard extends LitElement {
 
   isCancelled(attribs):boolean|void {
     if (!attribs?.service) {
-      console.log(attribs.service);
       return true;
     }
     
@@ -131,7 +130,7 @@ export class NationalrailTimesCard extends LitElement {
     if (this.config.show_offset && 
       entity.offset && 
       entity.offset > 0) {
-        return html`<div class="offset-time">${entity.offset} minutes walk to station</div>`;
+        return html`<div class="offset-time">${entity.offset} minutes walk to station. TEST</div>`;
       }
   }
 
@@ -181,12 +180,12 @@ export class NationalrailTimesCard extends LitElement {
     }
   }
 
-  getPlatform(attribs): string | null {
-  if (!attribs?.service) {
-    return null;
-  }
-  const platform = attribs.service.platform;
-  return platform ? platform : null;
+  getPlatform(attribs): TemplateResult {
+    const platform = attribs?.service?.platform || "Unknown";
+    if (!attribs?.service?.platform) {
+      console.warn("Platform data missing for:", attribs);
+    }
+    return html`<div class="platform">Platform: ${platform}</div>`;
   }
 
   getStatus(attribs): string {
@@ -347,7 +346,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes) ? html`<div class="platform">Platform: ${this.getPlatform(entity.attributes)}</div>` : ''}
+      ${this.getPlatform(entity.attributes)}
       ${this._renderServiceStatus(entity.attributes, THEME.DEFAULT)}
       ${this._renderServiceTimes(entity.attributes)}
       ${this._renderCallingPoints(entity.attributes)}
@@ -375,7 +374,7 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes) ? html`<div class="platform">Platform: ${this.getPlatform(entity.attributes)}</div>` : ''}
+      ${this.getPlatform(entity.attributes)}
       <div class="row">
         ${this._renderServiceTimes(entity.attributes)}
         ${this._renderCallingPoints(entity.attributes)}
@@ -492,6 +491,13 @@ export class NationalrailTimesCard extends LitElement {
       .train-times .train-times__col h2 {
         margin: 0;
         margin-bottom: 8px;
+      }
+
+      .platform {
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--primary-text-color);
+        margin-top: 8px;
       }
 
       /* .train-times__time {
