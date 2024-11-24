@@ -1,5 +1,5 @@
 {
-    "name": "National Rail Departure Times Card",
+    "name": "National Rail Departure Times Card - Platform",
     "render_readme": true,
     "filename": "nationalrail-times-card.js",
     "country": ["GB"]
