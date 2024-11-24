@@ -5,9 +5,6 @@ To be used with the Home Assistant custom component homeassistant_nationalrailti
 [![License][license-shield]](LICENSE.md)
 
 [![hacs][hacs-badge]][hacs-url]
-[![release][release-badge]][release-url]
-![downloads][downloads-badge]
-![build][build-badge]
 
 ![alt text](https://raw.githubusercontent.com/dabc24/homeassistant_nationalrailtimes_lovelace/master/screenshot.png)
 
