@@ -1,4 +1,4 @@
-# Home Assistant National Rail Times Card by [@crismc](https://github.com/crismc)
+# Home Assistant National Rail Times Card Originally by [@crismc](https://github.com/crismc)
 A custom Home Assistant card for the Lovelace theme to show next available trains to specific stops through the National Rail Darwin API.
 To be used with the Home Assistant custom component homeassistant_nationalrailtimes_integration (https://github.com/crismc/homeassistant_nationalrailtimes_integration)
 
@@ -41,7 +41,7 @@ The easiest way to install this frontend card is to install via HACS:
 1) Simply go to HACS in your Home Assistant
 2) Select 'Frontend'
 3) In the top right of the screen, select the 3 dots and choose 'Custom repositories'
-4) For the repository field enter 'https://github.com/crismc/homeassistant_nationalrailtimes_lovelace'
+4) For the repository field enter 'https://github.com/dabc24/homeassistant_nationalrailtimes_lovelace'
 5) Choose 'Lovelace' as the category
 6) Add
 7) Restart your HomeAssistant
