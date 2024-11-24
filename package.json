@@ -1,7 +1,7 @@
 {
   "name": "nationalrail-times-card",
   "version": "1.4.1",
-  "description": "Lovelace National Rail Departure Times Card",
+  "description": "National Rail Departure Times Card - Platform",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -11,8 +11,8 @@
     "custom-cards"
   ],
   "module": "nationalrail-times-card.js",
-  "repository": "git@github.com:crismc/homeassistant_nationalrailtimes_lovelace.git",
-  "author": "Chris Churchill <chris@serva.co.uk>",
+  "repository": "git@github.com:dabc24/homeassistant_nationalrailtimes_lovelace.git",
+  "author": "Duncan Leigh",
   "dependencies": {
     "@lit-labs/scoped-registry-mixin": "^1.0.0",
     "@material/mwc-formfield": "^0.25.3",
