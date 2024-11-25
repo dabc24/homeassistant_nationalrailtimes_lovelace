@@ -20,7 +20,7 @@ import { localize } from './localize/localize';
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'nationalrail-times-card',
-  name: 'National Rail Times Card - Platform Number',
+  name: 'National Rail Times Card - With Platform Number',
   description: 'A custom template to present departure details from a configured station enabled from the National Rail Departure Times Integration',
 });
 
@@ -130,7 +130,7 @@ export class NationalrailTimesCard extends LitElement {
     if (this.config.show_offset && 
       entity.offset && 
       entity.offset > 0) {
-        return html`<div class="offset-time">${entity.offset} minutes walk to station. TEST</div>`;
+        return html`<div class="offset-time">${entity.offset} minutes walk to station.</div>`;
       }
   }
 
@@ -180,12 +180,31 @@ export class NationalrailTimesCard extends LitElement {
     }
   }
 
-  getPlatform(attribs): TemplateResult {
-    const platform = attribs?.service?.platform || "Unknown";
-    if (!attribs?.service?.platform) {
-      console.warn("Platform data missing for:", attribs);
+  getPlatform(entity): TemplateResult | void {
+    if (!this.config.show_platform || this.isCancelled(entity)) {
+      return;
     }
-    return html`<div class="platform">Platform: ${platform}</div>`;
+
+    const platform = entity?.service?.platform || "Unknown";
+    const platformClass = platform === "Unknown" ? "platform-unknown" : "platform-known";
+
+    if (this.isTheme(THEME.THIN)) {
+      // Thin theme: Display only the icon and platform number
+      return html`
+      <div class="platform ${platformClass} thin-theme">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style="fill: var(--primary-text-color);"><path d="M480-301q99-80 149.5-154T680-594q0-90-56-148t-144-58q-88 0-144 58t-56 148q0 65 50.5 139T480-301Zm0 101Q339-304 269.5-402T200-594q0-125 78-205.5T480-880q124 0 202 80.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520ZM200-80v-80h560v80H200Zm280-520Z"/></svg>
+        ${platform}
+      </div>
+    `;
+    } else {
+      // Default theme: Full platform display
+      return html`
+      <div class="platform ${platformClass}">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style="fill: var(--primary-text-color);"><path d="M480-301q99-80 149.5-154T680-594q0-90-56-148t-144-58q-88 0-144 58t-56 148q0 65 50.5 139T480-301Zm0 101Q339-304 269.5-402T200-594q0-125 78-205.5T480-880q124 0 202 80.5T760-594q0 94-69.5 192T480-200Zm0-320q33 0 56.5-23.5T560-600q0-33-23.5-56.5T480-680q-33 0-56.5 23.5T400-600q0 33 23.5 56.5T480-520ZM200-80v-80h560v80H200Zm280-520Z"/></svg>
+        Platform: ${platform}
+      </div>
+    `;
+    }
   }
 
   getStatus(attribs): string {
@@ -346,8 +365,8 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes)}
       ${this._renderServiceStatus(entity.attributes, THEME.DEFAULT)}
+      ${this.getPlatform(entity.attributes)}
       ${this._renderServiceTimes(entity.attributes)}
       ${this._renderCallingPoints(entity.attributes)}
     `;
@@ -374,8 +393,8 @@ export class NationalrailTimesCard extends LitElement {
       </div>
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
-      ${this.getPlatform(entity.attributes)}
       <div class="row">
+        ${this.getPlatform(entity.attributes)}
         ${this._renderServiceTimes(entity.attributes)}
         ${this._renderCallingPoints(entity.attributes)}
       </div
@@ -494,12 +513,54 @@ export class NationalrailTimesCard extends LitElement {
       }
 
       .platform {
-        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px;
+        font-size: 1.2rem;
         font-weight: bold;
-        color: var(--primary-text-color);
-        margin-top: 8px;
+        border-radius: 5px;
+        margin: 10px 0;
+        text-align: center;
       }
 
+      .platform.platform-known {
+        background-color: rgba(0, 128, 0, 0.2);
+        color: var(--primary-text-color);
+      }
+
+      .platform.platform-unknown {
+        background-color: rgba(255, 235, 59, 0.5);
+        color: var(--primary-text-color);
+      }
+
+      .platform .platform-icon {
+        font-size: 1.5rem;
+      }
+
+      .platform.thin-theme {
+        background: none;
+        box-shadow: none;
+        font-size: 1rem;
+        padding: 0;
+        gap: 4px;
+        margin: 0;
+      }
+
+      .platform-update {
+        animation: fade-in 0.5s ease-in-out;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
       /* .train-times__time {
         font-size: 2rem;
       } */
@@ -657,6 +718,11 @@ export class NationalrailTimesCard extends LitElement {
         margin-bottom: 0;
         line-height: normal;
       }
+
+      svg {
+        fill: var(--primary-text-color, #000); /* Fallback to black if variable is undefined */
+      }
+
     `;
   }
 }
