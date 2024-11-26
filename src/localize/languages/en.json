@@ -9,6 +9,7 @@
     "show_departure_time": "Show Departure Time",
     "show_callingpoints": "Show Calling Points",
     "show_via_destination": "Show Via Destination",
-    "show_platform": "Show Platform Number"
+    "show_platform": "Show Platform Number",
+    "show_offset_countdown": "Show Leave Countdown"
   }
 }

@@ -30,8 +30,11 @@ const STATUS = {
   ERROR : 'error'
 }
 
+
+
 @customElement('nationalrail-times-card')
 export class NationalrailTimesCard extends LitElement {
+  private _countdownInterval!: NodeJS.Timeout;
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import('./editor');
     return document.createElement('nationalrail-times-card-editor');
@@ -65,10 +68,90 @@ export class NationalrailTimesCard extends LitElement {
       show_departure_time: true,
       show_lastupdated: true,
       show_offset: true,
+      show_offset_countdown: true,
       show_platform: true,
       ...config,
     };
   }
+
+  @state() private countdown!: string; // Holds the countdown text
+
+  connectedCallback() {
+    super.connectedCallback();
+    this._startCountdown();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this._countdownInterval) clearInterval(this._countdownInterval);
+  }
+
+  private _startCountdown(): void {
+    if (!this.config.show_offset_countdown) {
+      if (this._countdownInterval) clearInterval(this._countdownInterval);
+      this.countdown = ""; // Clear the countdown display
+      return;
+    }
+
+    if (this._countdownInterval) clearInterval(this._countdownInterval);
+
+    this._countdownInterval = setInterval(() => {
+      this._updateCountdown();
+    }, 1000); // Update every second
+  }
+
+
+  private _updateCountdown(): void {
+    if (!this.config.show_offset_countdown) {
+      this.countdown = ""; // Clear countdown display
+      return;
+    }
+
+    const thisEntity = this.getEntity(this.config.entity);
+    const entity = thisEntity.attributes
+
+    if (!entity || !entity.service || !entity.service.std) {
+      this.countdown = "N/A";
+      return;
+    }
+
+    const departureTime = this.formatTime(entity.service.std);
+    const offsetMinutes = entity.offset || 0;
+    const leaveByTime = this._subtractMinutes(departureTime, offsetMinutes);
+
+    const now = new Date();
+    const leaveByDate = this._timeStringToDate(leaveByTime);
+
+    const timeLeft = Math.floor((leaveByDate.getTime() - now.getTime()) / 1000);
+
+    if (timeLeft < 0) {
+      const elapsedTime = Math.abs(timeLeft);
+      const minutes = Math.floor(elapsedTime / 60);
+      const seconds = elapsedTime % 60;
+      this.countdown = `Leave Now! +${minutes}:${seconds.toString().padStart(2, "0")}`;
+    } else if (timeLeft <= 30) {
+      this.countdown = "Leave Now!";
+    } else {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      this.countdown = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    }
+  }
+
+
+  private _timeStringToDate(time: string): Date {
+    const [hours, minutes] = time.split(":").map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+
+  private _subtractMinutes(time: string, minutes: number): string {
+    const date = this._timeStringToDate(time);
+    date.setMinutes(date.getMinutes() - minutes);
+    return date.toTimeString().slice(0, 5); // Return in HH:MM format
+  }
+
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
@@ -363,6 +446,11 @@ export class NationalrailTimesCard extends LitElement {
           ${this.minutesWalk(entity.attributes)}
         </div>
       </div>
+      ${this.config.show_offset_countdown
+          ? html`<div class="countdown">
+            Leave in: <span class="countdown-timer">${this.countdown}</span>
+          </div>`
+          : null}
       ${this._renderErrors()}
       ${this.stationMessage(entity.attributes)}
       ${this._renderServiceStatus(entity.attributes, THEME.DEFAULT)}
@@ -388,6 +476,7 @@ export class NationalrailTimesCard extends LitElement {
           <div class="title_footer">
             ${this.destinationVia(entity.attributes.service)}
             ${this.minutesWalk(entity.attributes)}
+            ${this.config.show_offset_countdown ? `Leave in: ${this.countdown}` : null}
           </div>
         </div>
       </div>
@@ -723,6 +812,18 @@ export class NationalrailTimesCard extends LitElement {
         fill: var(--primary-text-color, #000); /* Fallback to black if variable is undefined */
       }
 
+      .countdown {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 8px;
+        color: var(--primary-text-color);
+      }
+
+      .countdown-timer {
+        color: var(--error-color); /* Red for urgency */
+      }
+      
     `;
   }
 }

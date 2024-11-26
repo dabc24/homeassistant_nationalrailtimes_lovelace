@@ -96,6 +96,10 @@ export class NationalrailTimesCardEditor extends ScopedRegistryHost(LitElement) 
     return this._getConfig('show_offset', true);
   }
 
+  get _show_offset_countdown(): boolean {
+    return this._getConfig('show_offset_countdown', true);
+  }
+
   get _show_platform(): boolean {
     return this._getConfig('show_platform', true);
   }
@@ -203,6 +207,13 @@ export class NationalrailTimesCardEditor extends ScopedRegistryHost(LitElement) 
           .checked=${this._show_offset !== false}
           .configValue=${'show_offset'}
           @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      <mwc-formfield .label=${`Toggle Leave Countdown ${this._show_offset_countdown ? 'off' : 'on'}`}>
+        <mwc-switch
+            .checked=${this._show_offset_countdown !== false}
+            .configValue=${'show_offset_countdown'}
+            @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
       <mwc-formfield .label=${`Toggle platform number ${this._show_platform ? 'off' : 'on'}`}>

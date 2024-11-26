@@ -1,4 +1,4 @@
-# Home Assistant National Rail Times Card Originally by [@crismc](https://github.com/crismc)
+# Home Assistant National Rail Times Card with support for platform numbers
 A custom Home Assistant card for the Lovelace theme to show next available trains to specific stops through the National Rail Darwin API.
 To be used with the Home Assistant custom component homeassistant_nationalrailtimes_integration (https://github.com/crismc/homeassistant_nationalrailtimes_integration)
 
@@ -12,21 +12,22 @@ Based on the community driven boilerplate of best practices for Home Assistant L
 
 ## Options
 
-| Name                 | Type    | Requirement  | Description                                            | Default             |
-| ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
-| type                 | string  | **Required** | `custom:nationalrail-times-card`                        |                     |
-| name                 | string  | **Optional** | Card name based on entity                              | `none`              |
-| show_error           | boolean | **Optional** | Show error message such as no service data             | `true`              |
-| show_warning         | boolean | **Optional** | Show station alert messages                            | `true`              |
-| show_via_destination | boolean | **Optional** | Show if train goes via an alternate route              | `true`              |
-| show_callingpoints   | boolean | **Optional** | Show train service calling stops                       | `true`              |
-| show_status          | boolean | **Optional** | Show service status (e.g. On Time, Delayed etc)        | `true`              |
-| show_arrival_time    | boolean | **Optional** | Show train service arrival time at destination         | `true`              |
-| show_departure_time  | boolean | **Optional** | Show train service departure time from primary station | `true`              |
-| show_lastupdated     | boolean | **Optional** | Show when the service last communicated with the API   | `true`              |
-| show_offset          | boolean | **Optional** | Show walking time to station offset                    | `true`              |
-| show_platform        | boolean | **Optional** | Show platform number train is due to leave from        | `true`              |
-| entity               | string  | **Optional** | Home Assistant entity ID.                              | `none`              |
+| Name                 | Type    | Requirement  | Description                                                                   | Default             |
+| ---------------------| ------- | ------------ |-------------------------------------------------------------------------------| ------------------- |
+| type                 | string  | **Required** | `custom:nationalrail-times-card`                                              |                     |
+| name                 | string  | **Optional** | Card name based on entity                                                     | `none`              |
+| show_error           | boolean | **Optional** | Show error message such as no service data                                    | `true`              |
+| show_warning         | boolean | **Optional** | Show station alert messages                                                   | `true`              |
+| show_via_destination | boolean | **Optional** | Show if train goes via an alternate route                                     | `true`              |
+| show_callingpoints   | boolean | **Optional** | Show train service calling stops                                              | `true`              |
+| show_status          | boolean | **Optional** | Show service status (e.g. On Time, Delayed etc)                               | `true`              |
+| show_arrival_time    | boolean | **Optional** | Show train service arrival time at destination                                | `true`              |
+| show_departure_time  | boolean | **Optional** | Show train service departure time from primary station                        | `true`              |
+| show_lastupdated     | boolean | **Optional** | Show when the service last communicated with the API                          | `true`              |
+| show_offset          | boolean | **Optional** | Show walking time to station offset                                           | `true`              |
+| show_offset_countdown          | boolean | **Optional** | Show coundown until you need to leave calculated from walking time to station | `true`              |
+| show_platform        | boolean | **Optional** | Show platform number train is due to leave from                               | `true`              |
+| entity               | string  | **Optional** | Home Assistant entity ID.                                                     | `none`              |
 
 
 ## Install via HACS
