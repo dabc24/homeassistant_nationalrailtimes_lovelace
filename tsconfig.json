@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "es2017",
+      "es2021",
       "dom",
       "dom.iterable"
     ],
@@ -16,6 +16,7 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
   }
 }

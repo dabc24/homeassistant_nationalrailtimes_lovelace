@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup } from 'lit';
 import { customElement, property, state } from 'lit/decorators';
+import DOMPurify from 'dompurify';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
@@ -115,7 +117,17 @@ export class NationalrailTimesCard extends LitElement {
       return;
     }
 
-    const departureTime = this.formatTime(entity.service.std);
+    const isValidTime = (time: string): boolean => {
+      // Check if the time is in a valid format (e.g., HH:mm)
+      const timeRegex = /^\d{2}:\d{2}$/;
+      return timeRegex.test(time);
+    };
+
+    const departureTime = entity.service.etd && isValidTime(entity.service.etd)
+        ? this.formatTime(entity.service.etd)
+        : this.formatTime(entity.service.std);
+
+
     const offsetMinutes = entity.offset || 0;
     const leaveByTime = this._subtractMinutes(departureTime, offsetMinutes);
 
@@ -255,10 +267,20 @@ export class NationalrailTimesCard extends LitElement {
 
   stationMessage(entity): TemplateResult | void {
     if (this.config.show_warning && entity.message) {
+      const cleanHTML = (message: string) => {
+        // Configure DOMPurify to remove unwanted attributes
+        const sanitized = DOMPurify.sanitize(message);
+        return sanitized;
+      };
+
       if (Array.isArray(entity.message)) {
-        return entity.message.map(message => html`<div class="messages">${this._showWarning(message)}</div>`);
+        return entity.message.map(message => html`
+          <div class="messages">${unsafeHTML(cleanHTML(message))}</div>
+        `);
       } else {
-        return html`<div class="messages">${entity.message}</div>`
+        return html`
+          <div class="messages">${unsafeHTML(cleanHTML(entity.message))}</div>
+        `;
       }
     }
   }
