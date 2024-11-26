@@ -1,5 +1,10 @@
 # Home Assistant National Rail Times Card with support for platform numbers
 A custom Home Assistant card for the Lovelace theme to show next available trains to specific stops through the National Rail Darwin API.
+
+Based upon previous work by @crismc (https://github.com/crismc/)
+
+This version adds support for platform numbers and a countdown timer until you need to leave.
+
 To be used with the Home Assistant custom component homeassistant_nationalrailtimes_integration (https://github.com/crismc/homeassistant_nationalrailtimes_integration)
 
 [![License][license-shield]](LICENSE.md)
@@ -38,9 +43,9 @@ The easiest way to install this frontend card is to install via HACS:
 2) Select 'Frontend'
 3) In the top right of the screen, select the 3 dots and choose 'Custom repositories'
 4) For the repository field enter 'https://github.com/dabc24/homeassistant_nationalrailtimes_lovelace'
-5) Choose 'Lovelace' as the category
+5) Choose 'Dashboard' as the type
 6) Add
-7) Restart your HomeAssistant
+7) Restart your Home Assistant
 8) Explore & Download Repositories (depending on your version of Home Assistant)
 9) Search for 'National Rail Departure Times'
 10) Enjoy
@@ -67,7 +72,7 @@ Copy content of <project_dir>/dist to your Home Assistant instance <config>/www/
 If directories do not exist, create them.
 
 ### Step 5
-Go to Settings > Dashboards, click the three dots menu in the top right and select Resources.
+Go to Settings > Dashboards, click the three dots menu in the top right and select Manage Resources.
 If you do not have the three dots, you will need to temporarily enable "Advanced Mode" within Profile
 
 ### Step 6
